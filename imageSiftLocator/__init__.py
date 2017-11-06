@@ -4,3 +4,4 @@
 init file for module
 """
 
+from io import ImageDiskReader
