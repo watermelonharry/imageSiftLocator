@@ -83,10 +83,6 @@ class ImageLocator(object):
             # print 'kp1,kp2',kp1,kp2
             cv2.line(view, (int(kp1[m.queryIdx].pt[0]), int(kp1[m.queryIdx].pt[1])),
                      (int(kp2[m.trainIdx].pt[0] + w1), int(kp2[m.trainIdx].pt[1])), color)
-            print("good {0}: point src:{1},{2} ; point dst: {3},{4}".format(m.queryIdx, kp1[m.queryIdx].pt[0],
-                                                                            kp1[m.queryIdx].pt[1],
-                                                                            kp2[m.queryIdx].pt[0],
-                                                                            kp2[m.queryIdx].pt[1]))
             dst_point = (kp2[m.trainIdx].pt[0], kp2[m.trainIdx].pt[1])
             dst_point_list.append(dst_point)
 

@@ -39,7 +39,7 @@ class ImageLocatorTest(unittest.TestCase):
             self.assertTrue(isinstance(e, AttributeError))
 
     def test_calculate_location(self):
-        sample_path = r'D:\Code\imageSiftLocator\test\x1.jpg'
+        sample_path = r'D:\Code\imageSiftLocator\test\x1-90.jpg'
         train_path = r'D:\Code\imageSiftLocator\test\x2.jpg'
         sample_reader = ImageDiskReader(im_path=sample_path)
         train_reader = ImageDiskReader(im_path=train_path)
@@ -48,7 +48,7 @@ class ImageLocatorTest(unittest.TestCase):
         result = img_locator.find_location()
         print(result)
 
-        # img_locator.show_cmp_img_with_tag()
-        # img_locator.show_sample_img_with_tag()
-        # img_locator.show_train_img_with_tag()
+        img_locator.show_cmp_img_with_tag()
+        img_locator.show_sample_img_with_tag()
+        img_locator.show_train_img_with_tag()
         img_locator.show_center_with_tag()
