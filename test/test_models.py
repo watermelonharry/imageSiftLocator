@@ -6,13 +6,13 @@ input and output functions for module
 import unittest
 import os
 
-from imageSiftLocator.io import ImageDiskReader
-from imageSiftLocator.models import ImageLocator
+from TemplateLocator.imio import ImageDiskReader
+from TemplateLocator.models import TemplateLocator
 
 cwd = os.getcwd()
 
 
-class ImageLocatorTest(unittest.TestCase):
+class TemplateLocatorTest(unittest.TestCase):
     def setUp(self):
         pass
 
@@ -24,17 +24,17 @@ class ImageLocatorTest(unittest.TestCase):
         y_list= [21,56,87,99,3,5,14,79,3,102,23,39]
 
         correct_list = zip(x_list,y_list)
-        result = ImageLocator.get_median_coordinates(correct_list)
+        result = TemplateLocator.get_median_coordinates(correct_list)
         self.assertEqual(result, (11,39))
 
     def test_get_median_from_empty_list(self):
         try:
-            err = ImageLocator.get_median_coordinates([])
+            err = TemplateLocator.get_median_coordinates([])
         except Exception as e:
             self.assertTrue(isinstance(e, AttributeError))
 
         try:
-            err = ImageLocator.get_median_coordinates([(1,1),(2,2)])
+            err = TemplateLocator.get_median_coordinates([(1,1),(2,2)])
         except Exception as e:
             self.assertTrue(isinstance(e, AttributeError))
 
@@ -44,7 +44,7 @@ class ImageLocatorTest(unittest.TestCase):
         sample_reader = ImageDiskReader(im_path=sample_path)
         train_reader = ImageDiskReader(im_path=train_path)
 
-        img_locator = ImageLocator(sample=sample_reader, train=train_reader)
+        img_locator = TemplateLocator(sample=sample_reader, train=train_reader)
         result = img_locator.find_location()
         print(result)
 
