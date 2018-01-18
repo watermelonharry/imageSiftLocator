@@ -6,49 +6,45 @@ input and output functions for module
 import unittest
 import os
 
-from TemplateLocator.imio import ImageDiskReader
-from TemplateLocator.models import TemplateLocator
+from imageLocator.image_io import ImageDiskReader
+from imageLocator.models import TemplateLocator
 
 cwd = os.getcwd()
 
 
 class TemplateLocatorTest(unittest.TestCase):
     def setUp(self):
-        pass
+        self.src_reader = ImageDiskReader(im_path="test_imgs/a.jpg")
+        self.sample_reader = ImageDiskReader(im_path="test_imgs/ax.jpg")
 
     def tearDown(self):
         pass
 
-    def test_get_median_from_correct_list(self):
-        x_list= [1,11,2,22,3,33,4,44,5,55,6,66]
-        y_list= [21,56,87,99,3,5,14,79,3,102,23,39]
+    def test_template_init(self):
+        tem = TemplateLocator(sample=self.sample_reader, src=self.src_reader)
+        assert tem.get_search_index() is not None
 
-        correct_list = zip(x_list,y_list)
-        result = TemplateLocator.get_median_coordinates(correct_list)
-        self.assertEqual(result, (11,39))
-
-    def test_get_median_from_empty_list(self):
+    def test_template_error_init(self):
         try:
-            err = TemplateLocator.get_median_coordinates([])
-        except Exception as e:
-            self.assertTrue(isinstance(e, AttributeError))
+            tem = TemplateLocator(sample=self.sample_reader, src=[])
+            raise AssertionError("templateLocator can init with error input")
+        except AttributeError as e:
+            pass
 
-        try:
-            err = TemplateLocator.get_median_coordinates([(1,1),(2,2)])
-        except Exception as e:
-            self.assertTrue(isinstance(e, AttributeError))
+    def test_process(self):
+        tem = TemplateLocator(sample=self.sample_reader, src=self.src_reader)
+        # tem.process()
+        assert tem.get_result() is not None
+        assert len(tem.get_result()) == 14
+        print(tem.get_result())
+        """
+        result should be like
+        [(972, 134), (972, 165), (972, 196), (972, 227),
+        (972, 258), (972, 289), (972, 320), (972, 351),
+        (972, 382), (972, 413), (972, 444), (133, 526),
+        (1022, 632), (1022, 666)]
+        """
 
-    def test_calculate_location(self):
-        sample_path = r'D:\Code\imageSiftLocator\test\x1-90.jpg'
-        train_path = r'D:\Code\imageSiftLocator\test\x2.jpg'
-        sample_reader = ImageDiskReader(im_path=sample_path)
-        train_reader = ImageDiskReader(im_path=train_path)
-
-        img_locator = TemplateLocator(sample=sample_reader, train=train_reader)
-        result = img_locator.find_location()
-        print(result)
-
-        img_locator.show_cmp_img_with_tag()
-        img_locator.show_sample_img_with_tag()
-        img_locator.show_train_img_with_tag()
-        img_locator.show_center_with_tag()
+    def test_show_center(self):
+        tem = TemplateLocator(sample=self.sample_reader, src=self.src_reader)
+        tem.show_center_with_tag()

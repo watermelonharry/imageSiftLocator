@@ -5,9 +5,9 @@ init file for module
 """
 
 from __version__ import *
+from api import *
 
 
-from image_io import ImageDiskReader
 import logging
 
 logger = logging.getLogger("imageLocator")
@@ -22,3 +22,4 @@ logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
 logger.debug("init module")
+
